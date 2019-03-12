@@ -141,12 +141,183 @@ export class GlobalStorage {
   getU64(key: string): u64 {
     return U64.parseInt(this.getItem(key) || "0");
   }
+
+  /**
+   * Stores given generic value under the key. Key is encoded as UTF-8 strings.
+   * Unless the value is a string type, it's encoded as bytes.
+   * Supported types: bools, integers, floats, string and typed arrays.
+   * For common/dynamic arrays use {@link #setArray}
+   *
+   * @param key A key to use for storage.
+   * @param value A value to store.
+   */
+  set<T>(key: string, value: T): void {
+    if (isString<T>()) {
+      this.setItem(key, value);
+    } else {
+      this.setBytes(key, near.encode(value));
+    }
+  }
+
+  /**
+   * Stores given generic value under the key. Key is encoded as UTF-8 strings.
+   * Unless the value is a string type, it's encoded as bytes.
+   * Supported types: arrays of bools, integers and floats.
+   * For typed arrays use {@link #set}
+   *
+   * @param key A key to use for storage.
+   * @param value An array to store.
+   */
+  setArray<T>(key: string, value: T[]): void {
+    this.setBytes(key, near.encodeArray<T>(value));
+  }
+
+  /**
+   * Gets given generic value stored under the key. Key is encoded as UTF-8 strings.
+   * Supported types: bools, integers, floats, string and typed arrays.
+   * For common/dynamic arrays use {@link #getArray}
+   *
+   * @param key A key to read from storage.
+   * @returns A value of type T stored under the given key.
+   */
+  get<T>(key: string): T {
+    if (isString<T>()) {
+      return this.getItem(key);
+    } else {
+      return near.decode<T>(this.getBytes(key));
+    }
+  }
+
+  /**
+   * Gets given array of a generic type stored under the key. Key is encoded as UTF-8 strings.
+   * Supported types: arrays of bools, integers and floats.
+   * For typed arrays use {@link #get}
+   *
+   * @param key A key to read from storage.
+   * @returns An array of type T stored under the given key.
+   */
+  getArray<T>(key: string): T[] {
+    return near.decodeArray<T>(this.getBytes(key));
+  }
 }
 
 export let globalStorage: GlobalStorage = new GlobalStorage();
 export let contractContext: ContractContext = new ContractContext();
 
 export namespace near {
+  /**
+   * Converts A UTF-8 encoded Uint8Array of bytes to a string.
+   * It's helpful to debug encoded messages. E.g.
+   *
+   *     near.log(near.stringFromBytes(fooBarModel.encode()));
+   *
+   * @param buf A UTF-8 encoded Uint8 array of bytes to convert.
+   * @returns Decoded string.
+   */
+  export function stringFromBytes(buf: Uint8Array): string {
+    return String.fromUTF8(buf.buffer.data, buf.byteLength);
+  }
+
+  /**
+   * Encodes a given array of type T into Uint8Array of bytes.
+   * Supported types: arrays of bools, integers and floats.
+   * For typed arrays use {@link #encode}
+   *
+   * @param value An array to encode
+   * @returns An encoded array.
+   */
+  function encodeArray<T>(value: T[]): Uint8Array {
+    if (isInteger<T>() || isFloat<T>()) {
+      let tmp = new Uint8Array(4 + value.buffer_.byteLength);
+      store<i32>(tmp.buffer.data, value.length);
+      memory.copy(tmp.buffer.data + 4, value.buffer_.data, value.buffer_.byteLength);
+      return tmp;
+    }
+    assert(false, "Serialization of a given type is not supported");
+    return null;
+  }
+
+  /**
+   * Decodes an array of type T from the given Uint8Array of bytes.
+   * Supported types: arrays of bools, integers and floats.
+   * For typed arrays use {@link #decode}
+   *
+   * @param buf Uin8Array of bytes to decode.
+   * @returns A decoded array of type T.
+   */
+  function decodeArray<T>(buf: Uint8Array): T[] {
+    if (isInteger<T>() || isFloat<T>()) {
+      let value = new Array<T>();
+      value.length_ = load<i32>(buf.buffer.data, 0);
+      value.buffer_ = new ArrayBuffer(buf.byteLength - 4, true);
+      memory.copy(value.buffer_.data, buf.buffer.data + 4, buf.byteLength - 4);
+      return value;
+    }
+    assert(false, "Deserialization of a given type is not supported");
+    return <T[]>null;
+  }
+
+  /**
+   * Encodes given value to an array of bytes.
+   * Supported types: bool, integers, floats and typed arrays.
+   * For common/dynamic arrays use {@link #encodeArray}
+   *
+   * @param value A value to encode.
+   * @returns An encoded value.
+   */
+  export function encode<T>(value: T): Uint8Array {
+    if (isInteger<T>() || isFloat<T>()) {
+      let buf = new Uint8Array(sizeof<T>());
+      store<T>(<usize>buf.buffer.data, value, 0);
+      return buf;
+    } else if (isArray<T>()) {
+      assert(value instanceof Uint8Array ||
+          value instanceof Uint8ClampedArray ||
+          value instanceof Uint16Array ||
+          value instanceof Uint32Array ||
+          value instanceof Uint64Array ||
+          value instanceof Int8Array ||
+          value instanceof Int16Array ||
+          value instanceof Int32Array ||
+          value instanceof Int64Array);
+      return <Uint8Array>value;
+    }
+    assert(false, "Serialization of a given type is not supported");
+    return null;
+  }
+
+  /**
+   * Decodes given value from the array of bytes.
+   * Supported types: bool, integers, floats and typed arrays.
+   * For common/dynamic arrays use {@link #decodeArray}
+   *
+   * @param buf Uin8Array of bytes to decode.
+   * @returns A decoded value.
+   */
+  export function decode<T>(buf: Uint8Array): T {
+    if (isInteger<T>() || isFloat<T>()) {
+      if (buf != null && buf.byteLength == sizeof<T>()) {
+        return load<T>(<usize>buf.buffer.data, 0);
+      } else {
+        return <T>0;
+      }
+    } else if (isArray<T>()) {
+      let value: T;
+      assert(value instanceof Uint8Array ||
+          value instanceof Uint8ClampedArray ||
+          value instanceof Uint16Array ||
+          value instanceof Uint32Array ||
+          value instanceof Uint64Array ||
+          value instanceof Int8Array ||
+          value instanceof Int16Array ||
+          value instanceof Int32Array ||
+          value instanceof Int64Array);
+      return <T>buf;
+    }
+    assert(false, "Deserialization of a given type is not supported");
+    return <T>null;
+  }
+
   /**
    * Hash given data. Returns hash as 32-byte array.
    * @param data data can be passed as either Uint8Array or anything with .toString (hashed as UTF-8 string).
