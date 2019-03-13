@@ -226,7 +226,7 @@ export namespace near {
    * @param value An array to encode
    * @returns An encoded array.
    */
-  function encodeArray<T>(value: T[]): Uint8Array {
+  export function encodeArray<T>(value: T[]): Uint8Array {
     if (isInteger<T>() || isFloat<T>()) {
       let tmp = new Uint8Array(4 + value.buffer_.byteLength);
       store<i32>(tmp.buffer.data, value.length);
@@ -245,7 +245,7 @@ export namespace near {
    * @param buf Uin8Array of bytes to decode.
    * @returns A decoded array of type T.
    */
-  function decodeArray<T>(buf: Uint8Array): T[] {
+  export function decodeArray<T>(buf: Uint8Array): T[] {
     if (isInteger<T>() || isFloat<T>()) {
       let value = new Array<T>();
       value.length_ = load<i32>(buf.buffer.data, 0);
