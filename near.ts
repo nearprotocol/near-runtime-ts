@@ -1244,6 +1244,12 @@ export namespace near {
   }
 }
 
+function u64to128buf(res: u64): usize {
+  let buf = new Uint8Array(16);
+  store<u64>(buf.buffer.data, res);
+  return buf.buffer.data;
+}
+
 /**
  * Class to make asynchronous calls to other contracts and receive callbacks.
  * Here is an example on how to create a new async call with the callback.
@@ -1308,7 +1314,7 @@ export class ContractPromise {
         contractName.lengthUTF8 - 1, contractName.toUTF8(),
         methodName.lengthUTF8 - 1, methodName.toUTF8(),
         args.byteLength, args.buffer.data,
-        0, amount)
+        u64to128buf(amount))
     };
   }
 
@@ -1330,7 +1336,7 @@ export class ContractPromise {
         this.id,
         methodName.lengthUTF8 - 1, methodName.toUTF8(),
         args.byteLength, args.buffer.data,
-        0, amount)
+        u64to128buf(amount))
     };
   }
 
@@ -1480,14 +1486,14 @@ declare function promise_create(
     account_id_len: usize, account_id_ptr: usize,
     method_name_len: usize, method_name_ptr: usize,
     args_len: usize, args_ptr: usize,
-    amount_hi: u64, amount_lo: u64): u32;
+    amount: usize): u32;
 
 @external("env", "promise_then")
 declare function promise_then(
     promise_index: u32,
     method_name_len: usize, method_name_ptr: usize,
     args_len: usize, args_ptr: usize,
-    amount_hi: u64, amount_lo: u64): u32;
+    amount: usize): u32;
 
 @external("env", "promise_and")
 declare function promise_and(promise_index1: u32, promise_index2: u32): u32;
@@ -1528,13 +1534,13 @@ declare function _near_log(msg_ptr: usize): void;
  * @hidden
  */
 @external("env", "frozen_balance")
-declare function frozen_balance(balance_ptr: u32): void;
+declare function frozen_balance(balance_ptr: usize): void;
 
 /**
  * @hidden
  */
 @external("env", "liquid_balance")
-declare function liquid_balance(balance_ptr: u32): void;
+declare function liquid_balance(balance_ptr: usize): void;
 
 /**
  * @hidden
@@ -1546,19 +1552,19 @@ declare function storage_usage(): u64;
  * @hidden
  */
 @external("env", "deposit")
-declare function deposit(min_amount_hi: u64, min_amount_lo: u64, max_amount_hi: u64, max_amount_lo: u64, amount_ptr: u32): void;
+declare function deposit(min_amount_ptr: usize, max_amount_ptr: usize, amount_ptr: usize): void;
 
 /**
  * @hidden
  */
 @external("env", "withdraw")
-declare function withdraw(min_amount_hi: u64, min_amount_lo: u64, max_amount_hi: u64, max_amount_lo: u64, amount_ptr: u32): void;
+declare function withdraw(min_amount_ptr: usize, max_amount_ptr: usize, amount_ptr: usize): void;
 
 /**
  * @hidden
  */
 @external("env", "received_amount")
-declare function received_amount(amount_ptr: u32): void;
+declare function received_amount(amount_ptr: usize): void;
 
 /**
  * @hidden
