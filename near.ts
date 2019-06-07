@@ -1308,7 +1308,6 @@ export class ContractPromise {
       args: Uint8Array,
       amount: u64 = 0
   ): ContractPromise {
-    near.log('aa');
     return {
       id: promise_create(
         contractName.lengthUTF8 - 1, contractName.toUTF8(),
