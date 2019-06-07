@@ -1302,12 +1302,13 @@ export class ContractPromise {
       args: Uint8Array,
       amount: u64 = 0
   ): ContractPromise {
+    near.log('aa');
     return {
       id: promise_create(
         contractName.lengthUTF8 - 1, contractName.toUTF8(),
         methodName.lengthUTF8 - 1, methodName.toUTF8(),
         args.byteLength, args.buffer.data,
-        amount)
+        0, amount)
     };
   }
 
@@ -1329,7 +1330,7 @@ export class ContractPromise {
         this.id,
         methodName.lengthUTF8 - 1, methodName.toUTF8(),
         args.byteLength, args.buffer.data,
-        amount)
+        0, amount)
     };
   }
 
@@ -1479,14 +1480,14 @@ declare function promise_create(
     account_id_len: usize, account_id_ptr: usize,
     method_name_len: usize, method_name_ptr: usize,
     args_len: usize, args_ptr: usize,
-    amount: u64): u32;
+    amount_hi: u64, amount_lo: u64): u32;
 
 @external("env", "promise_then")
 declare function promise_then(
     promise_index: u32,
     method_name_len: usize, method_name_ptr: usize,
     args_len: usize, args_ptr: usize,
-    amount: u64): u32;
+    amount_hi: u64, amount_lo: u64): u32;
 
 @external("env", "promise_and")
 declare function promise_and(promise_index1: u32, promise_index2: u32): u32;
@@ -1527,13 +1528,13 @@ declare function _near_log(msg_ptr: usize): void;
  * @hidden
  */
 @external("env", "frozen_balance")
-declare function frozen_balance(): u64;
+declare function frozen_balance(balance_ptr: u32): void;
 
 /**
  * @hidden
  */
 @external("env", "liquid_balance")
-declare function liquid_balance(): u64;
+declare function liquid_balance(balance_ptr: u32): void;
 
 /**
  * @hidden
@@ -1545,19 +1546,19 @@ declare function storage_usage(): u64;
  * @hidden
  */
 @external("env", "deposit")
-declare function deposit(min_amount: u64, max_amount: u64): u64;
+declare function deposit(min_amount_hi: u64, min_amount_lo: u64, max_amount_hi: u64, max_amount_lo: u64, amount_ptr: u32): void;
 
 /**
  * @hidden
  */
 @external("env", "withdraw")
-declare function withdraw(min_amount: u64, max_amount: u64): u64;
+declare function withdraw(min_amount_hi: u64, min_amount_lo: u64, max_amount_hi: u64, max_amount_lo: u64, amount_ptr: u32): void;
 
 /**
  * @hidden
  */
 @external("env", "received_amount")
-declare function received_amount(): u64;
+declare function received_amount(amount_ptr: u32): void;
 
 /**
  * @hidden
