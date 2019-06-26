@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "assemblyscript": "github:assemblyscript/assemblyscript",
     "as-pect": "github:jtenner/as-pect",
     "typedoc": "^0.14.2",
     "typedoc-plugin-markdown": "^1.1.25"

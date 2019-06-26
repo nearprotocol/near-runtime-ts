@@ -41,7 +41,7 @@ export class Storage {
    */
   keyRange(start: string, end: string, limit: i32 = -1): string[] {
     return this._fetchIter(
-      storage_range(start.lengthUTF8 - 1, start.toUTF8(), end.lengthUTF8 - 1, end.toUTF8()),
+      storage_range(String.UTF8.byteLength(start), <usize>String.UTF8.encode(start), String.UTF8.byteLength(end), <usize>String.UTF8.encode(end)),
       limit,
     );
   }
@@ -54,7 +54,7 @@ export class Storage {
    */
   keys(prefix: string, limit: i32 = -1): string[] {
     return this._fetchIter(
-      storage_iter(prefix.lengthUTF8 - 1, prefix.toUTF8()),
+      storage_iter(String.UTF8.byteLength(prefix), <usize>String.UTF8.encode(prefix)),
       limit,
     );
   }
@@ -77,14 +77,14 @@ export class Storage {
    * Store string value under given key. Both key and value are encoded as UTF-8 strings.
    */
   setString(key: string, value: string): void {
-    storage_write(key.lengthUTF8 - 1, key.toUTF8(), value.lengthUTF8 - 1, value.toUTF8());
+    storage_write(String.UTF8.byteLength(key), <usize>String.UTF8.encode(key), String.UTF8.byteLength(value), <usize>String.UTF8.byteLength(value));
   }
 
   /**
    * Get string value stored under given key. Both key and value are encoded as UTF-8 strings.
    */
   getString(key: string): string {
-    return this._internalReadString(DATA_TYPE_STORAGE, key.lengthUTF8 - 1, key.toUTF8());
+    return this._internalReadString(DATA_TYPE_STORAGE, String.UTF8.byteLength(key), <usize>String.UTF8.encode(key));
   }
 
   /**
@@ -94,7 +94,7 @@ export class Storage {
    * It's convenient to use this together with `domainObject.encode()`.
    */
   setBytes(key: string, value: Uint8Array): void {
-    storage_write(key.lengthUTF8 - 1, key.toUTF8(), value.byteLength, value.dataStart);
+    storage_write(String.UTF8.byteLength(key), <usize>String.UTF8.encode(key), value.byteLength, value.dataStart);
   }
 
   /**
@@ -104,14 +104,14 @@ export class Storage {
    * It's convenient to use this together with `DomainObject.decode()`.
    */
   getBytes(key: string): Uint8Array {
-    return this._internalReadBytes(DATA_TYPE_STORAGE, key.lengthUTF8 - 1, key.toUTF8());
+    return this._internalReadBytes(DATA_TYPE_STORAGE, String.UTF8.byteLength(key), <usize>String.UTF8.encode(key));
   }
 
   /**
    * Returns true if the given key is present in the storage.
    */
   contains(key: string): bool {
-    return storage_has_key(key.lengthUTF8 - 1, key.toUTF8());
+    return storage_has_key(String.UTF8.byteLength(key), <usize>String.UTF8.encode(key));
   }
 
   @inline
@@ -120,7 +120,7 @@ export class Storage {
   }
 
   delete(key: string): void {
-    storage_remove(key.lengthUTF8 - 1, key.toUTF8());
+    storage_remove(String.UTF8.byteLength(key), <usize>String.UTF8.encode(key));
   }
 
   /**
@@ -221,7 +221,9 @@ export class Storage {
     if (len == 0) {
       return null;
     }
-    return String.fromUTF8(this._scratchBuf.dataStart, len);
+    return String.UTF8.decode(
+        this._scratchBuf.buffer.slice(this._scratchBuf.byteLength, this._scratchBuf.byteLength + len)
+    );
   }
 
   /**
@@ -1113,13 +1115,13 @@ export namespace near {
   }
 
   export function bytesToString(bytes: Uint8Array): string {
-    return String.fromUTF8(bytes.dataStart, bytes.byteLength)
+    return String.UTF8.decode(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength));
   }
 
   export function stringToBytes(s: string): Uint8Array {
-    let len = s.lengthUTF8 - 1;
+    let len = String.UTF8.byteLength(s);
     let bytes = new Uint8Array(len);
-    memory.copy(bytes.dataStart, s.toUTF8(), len);
+    memory.copy(bytes.dataStart, <usize>String.UTF8.encode(s), len);
     return bytes;
   }
 
