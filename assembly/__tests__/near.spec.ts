@@ -1,4 +1,4 @@
-import { base64, near } from '../../near';
+import { base64, near } from '..';
 
 function testBase64(original: string, expectedEncoding: string): void {
     let bytes = near.stringToBytes(original);
