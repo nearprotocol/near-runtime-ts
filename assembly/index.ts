@@ -5,3 +5,4 @@ export * from "./types";
 export * from "./near";
 export * from "./imports";
 export * from "./util";
+export * from "./base64"
