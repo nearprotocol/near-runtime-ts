@@ -6,7 +6,8 @@ import { _testTextMessage, _testBytes, _testBytesTwo } from "./util";
 
 export function hello(): string {
   logging.log("hello test");
-  return "hello".concat("alice");
+  const s = simple("a");
+  return "hello".concat(s);
 }
 
 export function base58Test(): void {
@@ -409,4 +410,9 @@ function _vectorHasContents(vector: Vector<string>, expectedContents: Array<stri
     }
   }
   return true;
+}
+
+
+export function simple(s: string): string {
+  return s;
 }
