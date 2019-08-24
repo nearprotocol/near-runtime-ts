@@ -47,8 +47,8 @@ function makeArray<T>(): T {
   }
   return t;
 }
-describe("Instatied array", ()=> {
-  it("starts with zero length", () => {
+describe("Instantiated array", ()=> {
+  it("starts with a length of zero", () => {
     let arr = instantiate<Array<i32>>();
     expect<i32>(arr.length).toBe(0);
   })
