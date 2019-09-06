@@ -1,5 +1,5 @@
 //@nearfile
-import { near, context, storage, logging, base58, base64, PersistentMap, PersistentVector, PersistentDeque, PersistentTopN, ContractPromise, math } from "near-runtime-ts";
+import { near, context, storage, logging, base58, base64, PersistentMap, PersistentVector, PersistentDeque, PersistentTopN, ContractPromise, math, runtime_api } from "near-runtime-ts";
 import { u128 } from "bignum";
 import { TextMessage } from "./model";
 import { _testTextMessage, _testTextMessageTwo, _testBytes, _testBytesTwo } from "./util";
@@ -418,6 +418,11 @@ export function mathTests(): void {
   assert(hash256[31] == 184, "wrong contents of hash256");
 }
 
+export function randomTests(): void {
+  logging.log("randomTests");
+  // random_seed = "1Ldp" = base58([00, 01, 02, 03]) 0x00010203 = 66051 decimal
+  assert(math.random32() == 66051, "wrong random given context random seed");  
+}
 
 // cruft to compare test objects. TODO: use something standard
 function _arrayEqual(first: Uint8Array | null, second: Uint8Array | null): bool {

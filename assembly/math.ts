@@ -1,6 +1,7 @@
 import { runtime_api } from './runtime_api';
 import { util } from "./util";
 import { logging } from "./logging";
+import { storage } from "./storage";
 
 export namespace math {
 
@@ -60,19 +61,16 @@ export namespace math {
   //     return result;
   // }
 
+  /**
+  * Returns random 32-bit integer.
+  */
+  export function random32(): u32 {
+    runtime_api.random_seed(0);
 
-  //const _LAST_RANDOM_VALUE_KEY = "_lr";
-  // /**
-  // * Returns random 32-bit integer.
-  // */
-  // export function random32(): u32 {
-  //   const lastValue = storage.contains(this._LAST_RANDOM_VALUE_KEY) ? storage.get<u32>(this._LAST_RANDOM_VALUE_KEY) : 0;
-  //   runtime_api.random_seed(0);
-
-  //   const registerLength = runtime_api.register_len(0) as i32;
-  //   assert(registerLength >= 4, "Random seed is not long enough");
-  //   const registerContents = new Uint8Array(runtime_api.register_len(0) as i32);
-  //   runtime_api.read_register(0, registerContents.dataStart);
-  //   return _uint8ArrayToU32(registerContents);
-  // }
+    const registerLength = runtime_api.register_len(0) as i32;
+    assert(registerLength >= 4, "Random seed is not long enough");
+    const registerContents = new Uint8Array(registerLength as i32);
+    runtime_api.read_register(0, registerContents.dataStart);
+    return _uint8ArrayToU32(registerContents);
+  }
 }
