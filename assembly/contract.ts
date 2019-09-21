@@ -99,7 +99,7 @@ class Context {
 *   let promise = ContractPromise.create(
 *     "metanear",
 *     "addItem",
-*     itemArgs.encode(),
+*     itemArgs,
 *     0,
 *   );
 *   // Setting up args for the callback
@@ -126,37 +126,36 @@ export class ContractPromise {
   * without errors or failed asserts.
   * @param contractName Account ID of the remote contract to call. E.g. `metanear`.
   * @param methodName Method name on the remote contract to call. E.g. `addItem`.
-  * @param args Serialized arguments to pass into the method. To get them create a new model
+  * @param args Arguments object which will be serialized and passed into the method. To get them create a new model
   *     specific for the method you calling, e.g. `AddItemArgs`. Then create an instance of it
-  *     and populate arguments. After this, serialize it into bytes. E.g.
+  *     and populate arguments. E.g.
   *     ```
   *     let itemArgs: AddItemArgs = {
   *       accountId: "alice.near",
   *       itemId: "Sword +9000",
   *     };
-  *     // Serialize args
-  *     let args = itemArgs.encode();
   *     ```
   * @param gas The amount of gas attached to the call
   * @param amount The amount of tokens from your contract to be sent to the remote contract with this call.
   */
-  static create(
+  static create<T>(
     contractName: string,
     methodName: string,
-    args: Uint8Array,
+    args: T,
     gas: u64,
     amount: u128 = u128.fromU64(0)
   ): ContractPromise {
     const contract_name_encoded = util.stringToBytes(contractName);
     const method_name_encoded = util.stringToBytes(methodName);
     let amount_arr = amount.toUint8Array();
+    const bytes = encode<T>(args);
     const id: u64 = runtime_api.promise_create(
       contract_name_encoded.byteLength,
       contract_name_encoded.dataStart,
       method_name_encoded.byteLength,
       method_name_encoded.dataStart,
-      args.byteLength,
-      args.dataStart,
+      bytes.byteLength,
+      bytes.dataStart,
       amount_arr.dataStart,
       gas);
       //@ts-ignore: Typescript expects the object to have a function to match the type
@@ -172,28 +171,29 @@ export class ContractPromise {
   * @param methodName Method name on your contract to be called to receive the callback.
   *     NOTE: Your callback method name can start with `_`, which would prevent other
   *     contracts from calling it directly. Only callbacks can call methods with `_` prefix.
-  * @param args Serialized arguments on your callback method, see `create` for details.
+  * @param args Arguments on your callback method which will be serailized, see `create` for details.
   * @param gas The amount of gas attached to the call.
   * @param amount The amount of tokens from the called contract to be sent to the current contract with this call.
   */
-  then(
+  then<T>(
     contractName: string,
     methodName: string,
-    args: Uint8Array,
+    args: T,
     gas: u64,
     amount: u128 = u128.fromU64(0)
   ): ContractPromise {
     const contract_name_encoded = util.stringToBytes(contractName);
     const method_name_encoded = util.stringToBytes(methodName);
     let amount_arr = amount.toUint8Array();
+    const bytes = encode<T>(args);
     const id = runtime_api.promise_then(
       this.id,
       contract_name_encoded.byteLength,
       contract_name_encoded.dataStart,
       method_name_encoded.byteLength,
       method_name_encoded.dataStart,
-      args.byteLength,
-      args.dataStart,
+      bytes.byteLength,
+      bytes.dataStart,
       amount_arr.dataStart,
       gas);
       //@ts-ignore: See above ignore comment

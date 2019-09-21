@@ -35,9 +35,9 @@ export namespace util {
   */
   export function parseFromBytes<T>(bytes: Uint8Array): T {
     if (isString<T>() || isInteger<T>()) {
+      //@ts-ignore bytes is non-null so output will be nun-null
       return parseFromString<T>(bytesToString(bytes));
     } else {
-      //@ts-ignore v will have decode. Although second parameter is optional it causes compile error
       return decode<T>(bytes);
     }
   }
@@ -65,7 +65,6 @@ export namespace util {
         return <T>U64.parseInt(s);
       }
     } else {
-      //@ts-ignore v will have decode method
       return decode<T>(stringToBytes(s));
     }
   }

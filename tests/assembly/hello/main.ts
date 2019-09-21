@@ -1,7 +1,8 @@
 //@nearfile out
-import { context, storage, ContractPromise, near, logging } from "near-runtime-ts";
+import { context, storage, ContractPromise, near, logging, util } from "near-runtime-ts";
 
 import { PromiseArgs, InputPromiseArgs, MyCallbackResult, MyContractPromiseResult } from "./model";
+
 
 import { u128 } from "bignum";
 
@@ -142,10 +143,10 @@ export function recurse(n: i32): i32 {
 export function callPromise(args: PromiseArgs): void {
   let inputArgs: InputPromiseArgs = { args: args.args };
   let balance = args.balance as u64;
-  let promise = ContractPromise.create(
+  let promise = ContractPromise.create<InputPromiseArgs>(
       args.receiver,
       args.methodName,
-      inputArgs.encode(),
+      inputArgs,
       args.gas,
       new u128(args.balance)
       );
@@ -153,10 +154,10 @@ export function callPromise(args: PromiseArgs): void {
     inputArgs.args = args.callbackArgs;
     let callbackBalance = args.callbackBalance as u64;
 
-    promise = promise.then(
+    promise = promise.then<InputPromiseArgs>(
         context.contractName,
         args.callback,
-        inputArgs.encode(),
+        inputArgs,
         args.callbackGas,
         new u128(callbackBalance)
     );
