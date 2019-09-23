@@ -72,16 +72,16 @@ import {
   ArrowKind,
   isTypeOmitted,
   ParameterKind
-} from "../node_modules/assemblyscript/src/ast";
+} from "../../node_modules/assemblyscript/src/ast";
 
-import "../node_modules/assemblyscript/src/glue/js/float";
-import "../node_modules/assemblyscript/src/glue/js/i64";
+import "../../node_modules/assemblyscript/src/glue/js/float";
+import "../../node_modules/assemblyscript/src/glue/js/i64";
 
-import { CommonFlags } from "../node_modules/assemblyscript/src/common";
+import { CommonFlags } from "../../node_modules/assemblyscript/src/common";
 
-import { indent, CharCode } from "../node_modules/assemblyscript/src/util/index";
+import { indent, CharCode } from "../../node_modules/assemblyscript/src/util/index";
 
-import {  operatorTokenToString, } from "../node_modules/assemblyscript/src/tokenizer";
+import {  operatorTokenToString, } from "../../node_modules/assemblyscript/src/tokenizer";
 /** An AST builder. */
 export class ASTBuilder {
 

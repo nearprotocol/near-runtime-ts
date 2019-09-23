@@ -74,7 +74,7 @@ import {
   Node,
   NodeKind,
   Expression
-} from "../node_modules/assemblyscript/src/ast";
+} from "../../node_modules/assemblyscript/src/ast";
 
 import { AbstractVisitor, Writer } from "./visitor";
 

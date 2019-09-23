@@ -13,8 +13,8 @@ import {
   DeclarationStatement,
   TypeName,
   ParameterNode
-} from "../node_modules/assemblyscript/src/ast";
-import { CommonFlags } from "../node_modules/assemblyscript/src/common";
+} from "../../node_modules/assemblyscript/src/ast";
+import { CommonFlags } from "../../node_modules/assemblyscript/src/common";
 import { Parser } from "./mockTypes";
 
 import { ASTBuilder } from "./sourceBuilder";

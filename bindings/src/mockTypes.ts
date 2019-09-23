@@ -1,4 +1,4 @@
-import { Source } from "../node_modules/assemblyscript/src/ast";
+import { Source } from "../../node_modules/assemblyscript/src/ast";
 
 //Mock types since imports would add more dependencies than are needed.
 
