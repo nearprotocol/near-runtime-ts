@@ -9,6 +9,7 @@ cache:
     - node_modules/
     - tests/node_modules/
     - tests/nearcore/
+    - bindings/node_modules/
     - .cargo/
     - tests/out/
 
@@ -20,12 +21,17 @@ stages:
 install_dependencies:
   stage: install
   script:
-    - yarn && yarn add nearprotocol/assemblyscript
+    - yarn && cd bindings
 
 install_test_dependencies:
   stage: install
   script:
-    - cd tests && yarn
+    - cd tests && yarn && cd ../bindings/tests && yarn
+
+build_bindings: 
+  stage: build
+  script:
+    - cd bindings && npm run build
 
 build_test_wasm:
   stage: build
@@ -38,10 +44,15 @@ build_near_vm_runner_standalone:
     - export PATH="$PATH:$CARGO_HOME/bin"
     - cd tests && ./build-near-vm-runner-standalone.sh
 
+run_bindings_tests:
+  stage: test
+  script:
+    - cd bindings/tests && yarn test
+
 run_aspect_tests:
   stage: test
   script:
-    - cd tests && yarn asp
+    - cd tests && yarn test
 
 run_assembly_test:
   stage: test

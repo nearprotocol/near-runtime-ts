@@ -16,7 +16,7 @@ if (~tailArgs) {
 
 require("source-map-support").install();
 
-const asc = module.exports = require("../index.js");
+const asc = module.exports = require("../index.js").asc;
 if (/\basc$/.test(process.argv[1])) {
   process.exitCode = asc.main(process.argv.slice(2));
 }

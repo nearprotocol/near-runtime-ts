@@ -1,7 +1,7 @@
 
 const fs = require('fs');
 const assert = require('assert');
-const loader = require('../../lib/loader');
+const loader = require('assemblyscript/lib/loader');
 
 function toNum(x) { return parseInt(x.toString());}
 // http://www.onicos.com/staff/iz/amuse/javascript/expert/utf.txt

@@ -74,7 +74,6 @@ import {
   ParameterKind
 } from "../node_modules/assemblyscript/src/ast";
 
-import "../node_modules/assemblyscript/std/portable/index";
 import "../node_modules/assemblyscript/src/glue/js/float";
 import "../node_modules/assemblyscript/src/glue/js/i64";
 

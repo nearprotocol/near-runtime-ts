@@ -3,7 +3,7 @@
 const DEFAULT_ARGS = [
   "--baseDir", process.cwd(),
   "--runtime", "stub",
-  "--lib", "./node_modules/near-runtime-ts/bindngs/assemblyscript/nearEntry.ts",
+  "--lib", "./node_modules/near-runtime-ts/bindings/assembly/nearEntry.ts",
   "--transform", "./node_modules/near-runtime-ts/bindings/dist/transformerBundle"
 ]
 let asc;
@@ -11,7 +11,12 @@ function getAsc() {
   if (asc) {
     return asc;
   }
-  asc = require("assemblyscript/bin/asc");
+  try {
+    asc = require("assemblyscript/cli/asc");
+  } catch (e) {
+    asc= require("assemblyscript/dist/asc")
+    
+  }
   asc.main = (main => (args, options, fn) => {
     if (typeof options === "function") {
       fn = options;
@@ -27,7 +32,7 @@ module.exports.asc = getAsc()
 module.exports.compile  = function (inputFile, outputFile, args, options, callback){
   const asc = getAsc()
   if (typeof args === "function") {
-    callback = args;
+    option = args;
     args = [];
   } else if (typeof options === "function") {
     callback = options;

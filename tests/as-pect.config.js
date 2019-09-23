@@ -122,7 +122,9 @@ module.exports = {
     /** To select an appropriate runtime, use the --runtime compiler flag. */
     "--runtime": ["stub"], // Acceptable values are: full, half, stub (arena), and none,
     "--baseDir": __dirname,
-    "--runPasses": ["inlining,dce"]
+    "--runPasses": ["inlining,dce"],
+    "--lib": ["./node_modules/near-runtime-ts/bindings/assembly/nearEntry.ts"],
+    "--transform": ["./node_modules/near-runtime-ts/bindings/dist/transformerBundle.js"]
   },
   /**
    * A set of regexp that will disclude source files from testing.

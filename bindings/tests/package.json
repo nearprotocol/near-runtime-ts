@@ -4,11 +4,9 @@
   "description": "Tests for near bindings",
   "main": "test.js",
   "scripts": {
-    "build:as": "../../bin/asc assembly/test.ts --validate --runtime stub --binaryFile out/test.wasm --textFile out/test.wat --runPasses dce --debug",
-    "build:hello": "../../bin/asc assembly/hello/main.ts --validate --runtime stub --binaryFile out/hello.wasm --textFile out/hello.wat --runPasses dce --debug",
+    "build:as": "near-asc assembly/test.ts --validate --runtime stub --binaryFile out/test.wasm --textFile out/test.wat --runPasses dce --debug",
     "build": "npm run build:as",
-    "build:base": "../../bin/near-asc",
-    "test": "node --experimental-wasm-bigint ./test.js"
+    "test": "npm run build && node --experimental-wasm-bigint ./test.js"
   },
   "dependencies": {
     "near-runtime-ts": "file:../.."
