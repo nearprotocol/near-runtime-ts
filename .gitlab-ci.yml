@@ -21,12 +21,12 @@ stages:
 install_dependencies:
   stage: install
   script:
-    - yarn && cd bindings
+    - yarn && cd bindings && yarn
 
 install_test_dependencies:
   stage: install
   script:
-    - cd tests && yarn && cd ../bindings/tests && yarn
+    - cd tests && yarn && cd ../bindings/tests && npm install
 
 build_bindings: 
   stage: build
