@@ -10010,7 +10010,7 @@
    call $~lib/rt/stub/__release
    i32.const 3640
    i32.const 3688
-   i32.const 163
+   i32.const 133
    i32.const 4
    call $~lib/builtins/abort
    unreachable
@@ -15298,7 +15298,6 @@
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
-  (local $5 i32)
   local.get $0
   call $~lib/rt/stub/__retain
   drop
@@ -15316,109 +15315,99 @@
     i32.ne
     i32.eqz
     br_if $break|0
-    local.get $1
-    i64.const 1
-    local.get $3
-    i64.extend_i32_s
-    i64.shl
-    i64.and
-    i64.const 0
-    i64.ne
-    if (result i32)
-     i32.const 1
-    else
-     i32.const 0
-    end
-    local.set $4
     block $break|1
      i32.const 0
-     local.set $5
+     local.set $4
      loop $loop|1
-      local.get $5
+      local.get $4
       local.get $2
       i32.le_s
       i32.eqz
       br_if $break|1
       local.get $0
-      local.get $5
+      local.get $4
       local.get $0
-      local.get $5
+      local.get $4
       call $~lib/typedarray/Int8Array#__get
       local.get $0
-      local.get $5
+      local.get $4
       call $~lib/typedarray/Int8Array#__get
       i32.const 5
       i32.ge_s
-      if (result i32)
-       i32.const 3
-      else
-       i32.const 0
-      end
+      i32.const 3
+      i32.mul
       i32.add
+      i32.const 24
+      i32.shl
+      i32.const 24
+      i32.shr_s
       call $~lib/typedarray/Int8Array#__set
-      local.get $5
+      local.get $4
       i32.const 1
       i32.add
-      local.set $5
+      local.set $4
       br $loop|1
      end
      unreachable
     end
     block $break|2
      local.get $2
-     local.set $5
+     local.set $4
      loop $loop|2
-      local.get $5
+      local.get $4
       i32.const -1
       i32.ne
       i32.eqz
       br_if $break|2
       local.get $0
-      local.get $5
+      local.get $4
       local.get $0
-      local.get $5
+      local.get $4
       call $~lib/typedarray/Int8Array#__get
       i32.const 1
       i32.shl
+      i32.const 24
+      i32.shl
+      i32.const 24
+      i32.shr_s
       call $~lib/typedarray/Int8Array#__set
-      local.get $5
+      local.get $4
       local.get $2
       i32.lt_s
       if
        local.get $0
-       local.get $5
+       local.get $4
        i32.const 1
        i32.add
        local.get $0
-       local.get $5
+       local.get $4
        i32.const 1
        i32.add
        call $~lib/typedarray/Int8Array#__get
        local.get $0
-       local.get $5
+       local.get $4
        call $~lib/typedarray/Int8Array#__get
        i32.const 15
        i32.gt_s
-       if (result i32)
-        i32.const 1
-       else
-        i32.const 0
-       end
        i32.or
+       i32.const 24
+       i32.shl
+       i32.const 24
+       i32.shr_s
        call $~lib/typedarray/Int8Array#__set
       end
       local.get $0
-      local.get $5
+      local.get $4
       local.get $0
-      local.get $5
+      local.get $4
       call $~lib/typedarray/Int8Array#__get
       i32.const 15
       i32.and
       call $~lib/typedarray/Int8Array#__set
-      local.get $5
+      local.get $4
       i32.const 1
       i32.sub
-      local.set $5
+      local.set $4
       br $loop|2
      end
      unreachable
@@ -15428,8 +15417,19 @@
     local.get $0
     i32.const 0
     call $~lib/typedarray/Int8Array#__get
-    local.get $4
+    local.get $1
+    i64.const 1
+    local.get $3
+    i64.extend_i32_s
+    i64.shl
+    i64.and
+    i64.const 0
+    i64.ne
     i32.add
+    i32.const 24
+    i32.shl
+    i32.const 24
+    i32.shr_s
     call $~lib/typedarray/Int8Array#__set
     local.get $3
     i32.const 1
