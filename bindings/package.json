@@ -5,16 +5,9 @@
   "main": "test.js",
   "scripts": {
     "build": "npm run webpack",
-    "webpack": "webpack --config=./webpack.config.js",
+    "webpack": "../node_modules/.bin/webpack --config=./webpack.config.js",
     "build:dev": "npm run webpack -- --mode=development"
   },
   "author": "",
-  "license": "MIT",
-  "devDependencies": {
-    "ts-loader": "^6.1.2",
-    "ts-node": "^8.4.1",
-    "typescript": "^3.6.3",
-    "webpack": "^4.40.2",
-    "webpack-cli": "^3.3.9"
-  }
+  "license": "MIT"
 }
