@@ -22,6 +22,6 @@
   },
   "devDependencies": {
     "typedoc": "^0.15.0",
-    "typedoc-plugin-markdown": "^1.2.1"
+    "typedoc-plugin-markdown": "^2.2.11"
   }
 }
