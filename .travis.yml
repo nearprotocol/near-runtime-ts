@@ -1,9 +1,8 @@
-image: node:12
-
-variables:
-    CARGO_HOME: "$CI_PROJECT_DIR/.cargo"
-    RUSTUP_HOME: "$CI_PROJECT_DIR/.rustup"
-
+language: node_js
+node_js: 10
+env:
+  - NODE_ENV=ci
+  - NODE_ENV=ci-staging
 cache:
   paths:
     - node_modules/
@@ -11,6 +10,10 @@ cache:
     - tests/nearcore/
     - .cargo/
     - tests/out/
+
+variables:
+    CARGO_HOME: "$TRAVIS_BUILD_DIR/.cargo"
+    RUSTUP_HOME: "$TRAVIS_BUILD_DIR/.rustup"
 
 stages:
   - install
@@ -44,7 +47,7 @@ build_near_vm_runner_standalone:
     - docker
   stage: build
   script:
-    - export PATH="$PATH:$CARGO_HOME/bin"
+    - export PATH=$PATH:$PWD/.cargo/bin
     - cd tests && ./build-near-vm-runner-standalone.sh
 
 run_aspect_tests:
@@ -60,3 +63,5 @@ run_assembly_test:
   stage: test
   script:
     - cd tests && ./test.sh
+
+
