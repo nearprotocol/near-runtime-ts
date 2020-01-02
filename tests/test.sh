@@ -1,5 +1,5 @@
 #!/bin/bash
-TESTS=(base58Test base64Test logTest storageStringRoundtripTest storageBytesRoundtripTest storageGenericGetSetRoundtripTest storageKeysTest mapTests mapTestsWithPrimitices vectorTests dequeTests topnTests promiseTests mathTests)
+TESTS=(base58Test base64Test logTest storageStringRoundtripTest storageBytesRoundtripTest storageGenericGetSetRoundtripTest mapTests mapTestsWithPrimitices vectorTests dequeTests promiseTests mathTests)
 DISABLED_TESTS=(contextTests)
 
 [[ -e /tmp/main.wasm ]] && rm /tmp/main.wasm
@@ -11,7 +11,7 @@ passed=0
 
 testcase () {
 
-    res=`nearcore/target/debug/near-vm-runner-standalone --context-file=/tmp/context.json --config-file=/tmp/config.json --method-name=$1 --wasm-file=/tmp/main.wasm --input="{}"`
+    res=`/Users/zaver/Projects/nearcore/target/debug/near-vm-runner-standalone --context-file=/tmp/context.json --config-file=/tmp/config.json --method-name=$1 --wasm-file=/tmp/main.wasm --input="{}"`
     if [[ "$res" =~ "$errormsg" ]]; then
         echo -e "\033[91m[FAIL] \033[0m$res"
         errors=`expr $errors + 1`

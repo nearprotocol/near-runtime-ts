@@ -6,6 +6,7 @@
     "input": "{\"name\":\"Alice\"}",
     "block_index": 0,
     "account_balance": 0,
+    "account_locked_balance": 0,
     "attached_deposit": 0,
     "prepaid_gas": 1000000000,
     "random_seed": "15T",

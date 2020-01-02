@@ -8,6 +8,6 @@
   },
   "dependencies": {
     "@as-pect/cli": "^2.5.0",
-    "near-runtime-ts": "file:.."
+    "near-runtime-ts": "../"
   }
 }
