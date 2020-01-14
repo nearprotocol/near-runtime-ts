@@ -19,7 +19,10 @@
     "bignum": "github:MaxGraey/bignum.wasm"
   },
   "devDependencies": {
+    "@as-pect/cli": "^2.6.0",
     "assemblyscript": "^0.8.1",
+    "near-bindgen-as": "^1.2.0",
+    "near-hello": "^0.4.0",
     "ts-node": "^8.4.1",
     "typedoc": "^0.15.0",
     "typedoc-plugin-markdown": "^1.2.1"

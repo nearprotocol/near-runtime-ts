@@ -138,6 +138,7 @@ export class Storage {
   get<T>(key: string, defaultValue: T | null = null): T | null {
     if (isString<T>()) {
       const strValue = this.getString(key);
+      //@ts-ignore strings can be null
       return strValue == null ? defaultValue : util.parseFromString<T>(this.getString(key));
     } else {
       const byteValue = this.getBytes(key);
@@ -156,6 +157,7 @@ export class Storage {
   getPrimitive<T>(key: string, defaultValue: T): T {
     if (isInteger<T>()) {
       const strValue = this.getString(key);
+      //@ts-ignore strings can be null
       return strValue == null ? defaultValue : util.parseFromString<T>(this.getString(key));
     } else {
       throw "Operation not supported. Please use storage.get<T> for non-primitives";
@@ -176,8 +178,10 @@ export class Storage {
       assert(false, "Key '" + key + "' is not present in the storage");
     }
     if (isString<T>() || isInteger<T>()) {
+      //@ts-ignore strings can be null
       return util.parseFromString<T>(this.getString(key));
     } else {
+      //@ts-ignore can be null
       return util.parseFromBytes<T>(this.getBytes(key));
     }
   }
