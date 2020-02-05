@@ -238,6 +238,23 @@ export function vectorTests(): void {
   assert(vector.front == "aa", "Incorrect front entry")
   assert(vector.first == "aa", "Incorrect first entry")
 
+  //slice methods
+  assert(_arrayEqual(vector.slice(), ["aa", "bd", "be"]), "Unexpected vector contents. Expected [aa, bd, be]");
+  assert(_arrayEqual(vector.slice(0), ["aa", "bd", "be"]), "Unexpected vector contents. Expected [aa, bd, be]");
+  assert(_arrayEqual(vector.slice(1), ["bd", "be"]), "Unexpected vector contents. Expected [bd, be]");
+  assert(_arrayEqual(vector.slice(2), ["be"]), "Unexpected vector contents. Expected [be]");
+  assert(_arrayEqual(vector.slice(3), []), "Unexpected vector contents. Expected []");
+  assert(_arrayEqual(vector.slice(-1), ["be"]), "Unexpected vector contents. Expected [be]");
+  assert(_arrayEqual(vector.slice(-2), ["bd", "be"]), "Unexpected vector contents. Expected [bd, be]");
+  assert(_arrayEqual(vector.slice(-3), ["aa", "bd", "be"]), "Unexpected vector contents. Expected [aa, bd, be]");
+  assert(_arrayEqual(vector.slice(-4), ["aa", "bd", "be"]), "Unexpected vector contents. Expected [aa, bd, be]");
+  assert(_arrayEqual(vector.slice(0, 0), []), "Unexpected vector contents. Expected []");
+  assert(_arrayEqual(vector.slice(0, 1), ["aa"]), "Unexpected vector contents. Expected [aa]");
+  assert(_arrayEqual(vector.slice(0, 2), ["aa", "bd"]), "Unexpected vector contents. Expected [aa, bd]");
+  assert(_arrayEqual(vector.slice(1, 9), ["bd", "be"]), "Unexpected vector contents. Expected [bd, be]");
+  assert(_arrayEqual(vector.slice(-3, -2), ["aa", "bd"]), "Unexpected vector contents. Expected [aa, bd]");
+  assert(_arrayEqual(vector.slice(-3, -5), []), "Unexpected vector contents. Expected []");
+
   //pop an entry and then try various other methods
   vector.pop();
   assert(_vectorHasContents(vector, ["aa", "bd"]), "Unexpected vector contents. Expected [aa, bd]");
@@ -436,7 +453,7 @@ export function mathTests(): void {
 
 
 // cruft to compare test objects. TODO: use something standard
-function _arrayEqual(first: Uint8Array | null, second: Uint8Array | null): bool {
+function _arrayEqual(first: Array<any> | null, second: Array<any> | null): bool {
   if (first == null || second == null) {
     return first != second;
   }
