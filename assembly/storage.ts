@@ -6,7 +6,7 @@ import { util } from "./util";
 /**
  * Represents contract storage.
  */
-export class Storage {
+export class storage {
   /**
    * Returns list of keys between the given start key and the end key. Both inclusive.
   * NOTE: Must be very careful to avoid exploding amount of compute with this method.
@@ -14,7 +14,7 @@ export class Storage {
   * @param end The end key used as a upper bound in lexicographical order. Inclusive.
   * @param limit The maximum number of keys to return. Default is `-1`, means no limit.
   */
-  keyRange(start: string, end: string, limit: i32 = -1): string[] {
+  static keyRange(start: string, end: string, limit: i32 = -1): string[] {
     let start_encoded = util.stringToBytes(start);
     let end_encoded = util.stringToBytes(end);
 
@@ -33,7 +33,7 @@ export class Storage {
   * @param prefix The key prefix.
   * @param limit The maximum number of keys to return. Default is `-1`, means no limit.
   */
-  keys(prefix: string, limit: i32 = -1): string[] {
+  static keys(prefix: string, limit: i32 = -1): string[] {
     let prefix_encoded = util.stringToBytes(prefix);
     const iterator_id = runtime_api.storage_iter_prefix(
       prefix_encoded.byteLength,
@@ -44,7 +44,7 @@ export class Storage {
   /**
   * Store string value under given key. Both key and value are encoded as UTF-8 strings.
   */
-  setString(key: string, value: string): void {
+  static setString(key: string, value: string): void {
     let key_encoded = util.stringToBytes(key);
     let value_encoded = util.stringToBytes(value);
     const storage_write_result =
@@ -55,7 +55,7 @@ export class Storage {
   /**
   * Get string value stored under given key. Both key and value are encoded as UTF-8 strings.
   */
-  getString(key: string): string | null {
+  static getString(key: string): string | null {
     //@ts-ignore: Compiler says this is never null TODO
     return util.bytesToString(this._internalReadBytes(key));
   }
@@ -66,7 +66,7 @@ export class Storage {
   *
   * It's convenient to use this together with `domainObject.encode()`.
   */
-  setBytes(key: string, value: Uint8Array): void {
+  static setBytes(key: string, value: Uint8Array): void {
     let key_encoded = util.stringToBytes(key);
     const storage_write_result =
       runtime_api.storage_write(key_encoded.byteLength, key_encoded.dataStart, value.byteLength, value.dataStart, 0);
@@ -79,27 +79,27 @@ export class Storage {
   *
   * It's convenient to use this together with `DomainObject.decode()`.
   */
-  getBytes(key: string): Uint8Array | null {
+  static getBytes(key: string): Uint8Array | null {
     return this._internalReadBytes(key);
   }
 
   /**
   * Returns true if the given key is present in the storage.
   */
-  contains(key: string): bool {
+  static contains(key: string): bool {
     let key_encoded = util.stringToBytes(key);
     return (bool)(runtime_api.storage_has_key(key_encoded.byteLength, key_encoded.dataStart));
   }
 
   @inline
-  hasKey(key: string): bool {
+  static hasKey(key: string): bool {
     return this.contains(key);
   }
 
   /**
   * Deletes a given key from the storage.
   */
-  delete(key: string): void {
+  static delete(key: string): void {
     let key_encoded = util.stringToBytes(key);
     runtime_api.storage_remove(key_encoded.byteLength, key_encoded.dataStart, 0);
   }
@@ -111,7 +111,7 @@ export class Storage {
   * @param key A key to use for storage.
   * @param value A value to store.
   */
-  set<T>(key: string, value: T): void {
+  static set<T>(key: string, value: T): void {
     if (isString<T>()) {
       //@ts-ignore
       this.setString(key, value);
@@ -134,7 +134,7 @@ export class Storage {
   * @param defaultValue The default value if the key is not available
   * @returns A value of type T stored under the given key.
   */
-  get<T>(key: string, defaultValue: T | null = null): T | null {
+  static get<T>(key: string, defaultValue: T | null = null): T | null {
     if (isString<T>()) {
       const strValue = this.getString(key);
       return strValue == null ? defaultValue : util.parseFromString<T>(<string>strValue);
@@ -152,7 +152,7 @@ export class Storage {
   * @param defaultValue The default value if the key is not available
   * @returns A value of type T stored under the given key.
   */
-  getPrimitive<T>(key: string, defaultValue: T): T {
+  static getPrimitive<T>(key: string, defaultValue: T): T {
     if (isInteger<T>()) {
       const strValue = this.getString(key);
       return strValue == null ? defaultValue : util.parseFromString<T>(<string>strValue);
@@ -170,7 +170,7 @@ export class Storage {
   * @param defaultValue The default value if the key is not available
   * @returns A value of type T stored under the given key.
   */
-  getSome<T>(key: string): T {
+  static getSome<T>(key: string): T {
     if (!this.hasKey(key)) {
       assert(false, "Key '" + key + "' is not present in the storage");
     }
@@ -183,7 +183,7 @@ export class Storage {
     }
   }
 
-  private _internalReadBytes(key: string): Uint8Array | null {
+  private static _internalReadBytes(key: string): Uint8Array | null {
     let key_encoded = util.stringToBytes(key);
     let res = runtime_api.storage_read(key_encoded.byteLength, key_encoded.dataStart, 0);
     if (res == 1) {
@@ -197,7 +197,7 @@ export class Storage {
   * @hidden
   * Internal method to fetch list of keys from the given iterator up the limit.
   */
-  private _fetchIter(iterId: u64, limit: i32 = -1): string[] {
+  private static _fetchIter(iterId: u64, limit: i32 = -1): string[] {
     let result: string[] = new Array<string>();
 
     while(limit-- != 0 && runtime_api.storage_iter_next(iterId, 0, 1) == 1) {
@@ -210,8 +210,3 @@ export class Storage {
     return result;
   }
 }
-
-/**
-* An instance of a Storage class that is used for working with contract storage on the blockchain.
-*/
-export const storage: Storage = new Storage();

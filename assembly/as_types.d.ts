@@ -1,3 +1,5 @@
+/// <reference types="assemblyscript/std/types/assembly" />
+
 declare interface Uint8Array {
   dataStart: usize;
 }
