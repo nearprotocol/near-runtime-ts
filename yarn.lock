@@ -341,7 +341,7 @@ graceful-fs@^4.1.6, graceful-fs@^4.2.0:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.3.tgz#4a12ff1b60376ef09862c2093edd908328be8423"
   integrity sha512-a30VEBm4PEdx1dRB7MFK7BejejvCvBronbLjht+sHuGYj8PHs7M/5Z+rt5lw551vZ7yfTCj4Vuyy3mSJytDWRQ==
 
-handlebars@^4.7.0:
+handlebars@^4.7.2:
   version "4.7.3"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.7.3.tgz#8ece2797826886cf8082d1726ff21d2a022550ee"
   integrity sha512-SRGwSYuNfx8DwHD/6InAPzD6RgeruWLT+B8e8a7gGs8FWgHzlExpTFMEq2IA6QpAfOClpKHy6+8IqTjeBCu6Kg==
@@ -824,10 +824,10 @@ type-check@~0.3.2:
   dependencies:
     prelude-ls "~1.1.2"
 
-typedoc-default-themes@^0.6.3:
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.6.3.tgz#c214ce5bbcc6045558448a8fd422b90e3e9b6782"
-  integrity sha512-rouf0TcIA4M2nOQFfC7Zp4NEwoYiEX4vX/ZtudJWU9IHA29MPC+PPgSXYLPESkUo7FuB//GxigO3mk9Qe1xp3Q==
+typedoc-default-themes@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.7.2.tgz#1e9896f920b58e6da0bba9d7e643738d02405a5a"
+  integrity sha512-fiFKlFO6VTqjcno8w6WpTsbCgXmfPHVjnLfYkmByZE7moaz+E2DSpAT+oHtDHv7E0BM5kAhPrHJELP2J2Y2T9A==
   dependencies:
     backbone "^1.4.0"
     jquery "^3.4.1"
@@ -841,21 +841,21 @@ typedoc-plugin-markdown@^1.2.1:
   dependencies:
     turndown "^5.0.3"
 
-typedoc@^0.15.0:
-  version "0.15.8"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.15.8.tgz#d83195445a718d173e0d5c73b5581052cb47d4d9"
-  integrity sha512-a0zypcvfIFsS7Gqpf2MkC1+jNND3K1Om38pbDdy/gYWX01NuJZhC5+O0HkIp0oRIZOo7PWrA5+fC24zkANY28Q==
+typedoc@^0.16.10:
+  version "0.16.10"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.16.10.tgz#217cd4243c9b4d85f49b94323c178f6d279bfb9c"
+  integrity sha512-Eo1+K+XTiqSi4lz5cPrV4RncLv6abjCd/jfL5tTueNZGO2p8x2yDIrXkxL9C+SoLjJm2xpMs3CXYmTnilxk1cA==
   dependencies:
     "@types/minimatch" "3.0.3"
     fs-extra "^8.1.0"
-    handlebars "^4.7.0"
+    handlebars "^4.7.2"
     highlight.js "^9.17.1"
     lodash "^4.17.15"
     marked "^0.8.0"
     minimatch "^3.0.0"
     progress "^2.0.3"
     shelljs "^0.8.3"
-    typedoc-default-themes "^0.6.3"
+    typedoc-default-themes "^0.7.2"
     typescript "3.7.x"
 
 typescript@3.7.x:
