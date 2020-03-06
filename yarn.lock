@@ -56,9 +56,9 @@ array-equal@^1.0.0:
   integrity sha1-jCpe8kcv2ep0KwTHenUJO6J1fJM=
 
 as-bignum@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/as-bignum/-/as-bignum-0.1.5.tgz#e97a46a175644c277ecfe17d3850a63b6e55ac44"
-  integrity sha512-lv0ZOxtBReuCq6wpXUtjm6Mrj7CQn+qdSgF/O7yh553aH4FRrRaUXp/ywfSNMoiPK7AJ47f9gcKs0Toi5H84iA==
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/as-bignum/-/as-bignum-0.1.6.tgz#014c14c4027359ced10ac35225cbeed4778ef621"
+  integrity sha512-PiQwgChwyTogru0Z0kR7xvxcenLVgpa7d8UOrIqG9Ea91kcKfAo/SVc4gWjaPQJUl+xINekofxBzlj3tIeX18A==
 
 asn1@~0.2.3:
   version "0.2.4"
