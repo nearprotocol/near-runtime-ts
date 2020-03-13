@@ -21,6 +21,6 @@
     "typedoc-plugin-markdown": "^1.2.1"
   },
   "dependencies": {
-    "near-sdk-as": "^0.1.0-0"
+    "near-sdk-as": "^0.1.0-1"
   }
 }

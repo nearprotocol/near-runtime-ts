@@ -641,10 +641,10 @@ minimist@~0.0.1:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
   integrity sha1-3j+YVD2/lggr5IrRoMfNqDYwHc8=
 
-near-sdk-as@^0.1.0-0:
-  version "0.1.0-0"
-  resolved "https://registry.yarnpkg.com/near-sdk-as/-/near-sdk-as-0.1.0-0.tgz#77e2bbe9981176443c74472f603487ed90f8ff84"
-  integrity sha512-H0Cw6RR08qRppJT/J/GnYC1mtVXFL4t7EunPHq/jKVATQiayIIE2oKjXK3Rys/XeAIRmDlAoZChbJ4XE669Dgw==
+near-sdk-as@^0.1.0-1:
+  version "0.1.0-1"
+  resolved "https://registry.yarnpkg.com/near-sdk-as/-/near-sdk-as-0.1.0-1.tgz#a363d678a7701b97961159d22b984684bbef4e18"
+  integrity sha512-TSFW+sHw1RhoVPunzgSw8+rRqwUyYqV4gB71cSEGWHkwxPLkjaeiu6TBz1wMyZydQPWjgnjJvdMuAHvIz3sscA==
   dependencies:
     "@as-pect/cli" "^3.0.0-beta.0"
     as-bignum "^0.1.5"
