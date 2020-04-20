@@ -183,4 +183,25 @@ export class PersistentVector<T> {
   get first(): T  {
     return this.front;
   }
+
+  /**
+   * Returns a subset of the vector as an array, matching JavaScript's API
+   * (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice)
+   * @param {i32} from - The index to start at
+   * @param {i32} to - The index to end at
+   * @returns A new array with elements from starting index to ending index
+   */
+  slice(from: i32 = 0, to: i32 = this.length): T[] {
+    const startAt = from <= 0 ? Math.max(this.length + from, 0) : from;
+    if (startAt > this.length) return [];
+
+    const endAt = to <= 0 ? this.length + to : Math.min(to, this.length);
+    if (endAt < startAt) return [];
+
+    const ret = [];
+    for (let i = startAt; i < endAt; i++) {
+      ret.push(this[i]);
+    }
+    return ret;
+  }
 }
