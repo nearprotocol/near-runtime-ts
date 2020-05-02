@@ -1,6 +1,6 @@
 import { _testTextMessage, roundtrip } from "../util";
 import { TextMessage } from "../model";
-import { util } from "near-runtime-ts";
+import { util } from "near-sdk-as";
 import { Box } from "../generic";
 
 describe("Round Trip", () => {

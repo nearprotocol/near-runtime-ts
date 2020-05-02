@@ -1,7 +1,7 @@
-import { context, storage, base58, base64, PersistentMap, PersistentVector, PersistentDeque, PersistentTopN, ContractPromise, math } from "near-runtime-ts";
+import { context, storage, base58, base64, PersistentMap, PersistentVector, PersistentDeque, PersistentTopN, ContractPromise, math } from "near-sdk-as";
 import { TextMessage } from "../model";
 import { _testTextMessage, _testTextMessageTwo, _testBytes, _testBytesTwo } from "../util";
-import { VM, Context } from "wasm-mock-vm";
+import { VM, Context } from "near-sdk-as";
 
 // export function hello(): string {
 //   const s = simple("a"); // Test that we can call other export functions

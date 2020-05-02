@@ -1,5 +1,4 @@
-//@nearfile
-import {  base64, util } from 'near-runtime-ts';
+import {  base64, util } from 'near-sdk-as';
 
 
 function testBase64(original: string, expectedEncoding: string): void {
